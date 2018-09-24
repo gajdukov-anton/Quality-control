@@ -1,0 +1,15 @@
+http://links.testingcourse.ru/page12.html 404
+http://links.testingcourse.ru/page13.html 404
+http://links.testingcourse.ru/page15.html 404
+http://links.testingcourse.ru/page17.html 404
+http://links.testingcourse.ru/page16.html 404
+http://links.testingcourse.ru/page11.html 404
+<a href="tel:88001112233">lorem</a> 0
+<a href="http://volgatech.net">posuere</a> 0
+http://links.testingcourse.ru/page.html 404
+http://links.testingcourse.ru/trololo 404
+<a href="http://www.google.com">Nulla</a> 0
+http://links.testingcourse.ru/image.jpg 404
+<a href="javascript:alert('Hello');">commodo</a> 0
+<a href="http://www.yandex.ru">In</a> 0
+Mon Sep 24 18:20:31 MSK 2018 Size: 14
