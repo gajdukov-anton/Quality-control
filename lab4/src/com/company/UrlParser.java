@@ -15,6 +15,7 @@ public class UrlParser {
     private ArrayList<Link> links = new ArrayList<>();
     private ArrayList<Link> brokenLinks = new ArrayList<>();
     private org.jsoup.Connection.Response response = null;
+    private String baseUrl;
 
     private class Link {
         public Link() {
@@ -31,6 +32,7 @@ public class UrlParser {
 
     UrlParser(String link) throws IllegalArgumentException {
         if (isUrl(link)) {
+            this.baseUrl = link;
             findLink(link);
         } else {
             throw new IllegalArgumentException();
@@ -56,12 +58,14 @@ public class UrlParser {
                 links.add(link);
                 Elements newLinks = doc.getElementsByTag("a");
                 for (Element elem : newLinks) {
-                    if (isUrl(elem.absUrl("href"))) {
-                        findLink(elem.absUrl("href"));
-                    } else {
-                        if (!isContain(new Link(elem.toString(), 0))) {
-                            links.add(new Link(elem.toString(), 0));
-                            brokenLinks.add(new Link(elem.toString(), 0));
+                    if (isContainBaseUrl(elem.absUrl("href"))) {
+                        if (isUrl(elem.absUrl("href"))) {
+                            findLink(elem.absUrl("href"));
+                        } else {
+                            if (!isContain(new Link(elem.toString(), 0))) {
+                                links.add(new Link(elem.toString(), 0));
+                                brokenLinks.add(new Link(elem.toString(), 0));
+                            }
                         }
                     }
                 }
@@ -77,19 +81,16 @@ public class UrlParser {
         }
     }
 
+    private boolean isContainBaseUrl(String str) {
+        if (str.contains(baseUrl)) {
+            return true;
+        } else {
+            return  false;
+        }
+    }
+
     private boolean isUrl(String str) {
-        if (str.equals("http://www.yandex.ru")) {
-            return false;
-        }
-        if (str.equals("http://www.google.ru")) {
-            return false;
-        }
-        if (str.equals("http://www.google.com")) {
-            return false;
-        }
-        if (str.equals("http://volgatech.net")) {
-            return false;
-        }
+
         try {
             URL url = new URL(str);
             url.toURI();
