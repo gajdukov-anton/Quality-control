@@ -20,8 +20,20 @@ public class UrlParser {
     }
 
     public UrlParser(String protocol, String domain, String port, String document) {
-        this.url = protocol + "://" + domain + ":" + port + "/" + document;
-        parseUrl(url);
+        createProtocol(protocol);
+        createDomain(domain);
+        createDocument(document);
+        createPort(port);
+        this.url = getStrProtocol() + "://" + getDomain() + ":" + getPort() + "/" + getDocument();
+//        parseUrl(url);
+    }
+
+    public UrlParser(String protocol, String domain, String document) {
+        createProtocol(protocol);
+        createDomain(domain);
+        createDocument(document);
+        createPort("");
+        this.url = getStrProtocol() + "://" + getDomain() + ":" + getPort() + "/" + getDocument();
     }
 
     private void parseUrl(String url) throws IllegalArgumentException {
@@ -40,6 +52,49 @@ public class UrlParser {
         createDocument();
     }
 
+    private void createProtocol(String protocolStr) throws IllegalArgumentException {
+        if (protocolStr.equals("http")) {
+            this.protocol = Protocol.HTTP;
+        } else if (protocolStr.equals("https")){
+            this.protocol = Protocol.HTTPS;
+        } else {
+            throw new IllegalArgumentException("Invalid type of protocol");
+        }
+    }
+
+    private void createDomain(String domain) throws IllegalArgumentException {
+        Pattern pattern = Pattern.compile("([A-Za-z0-9]{1,}[\\-]{0,1}[A-Za-z0-9]{1,}[\\.]{0,1}[A-Za-z0-9]{1,})+");
+        Matcher m = pattern.matcher(domain);
+        if (!m.find() || domain.contains("/")) {
+            throw new IllegalArgumentException("Incorrect domain");
+        } else {
+            this.domain = domain;
+        }
+    }
+
+    private void createDocument(String document) throws IllegalArgumentException {
+        if (document.contains("//")) {
+            throw new IllegalArgumentException("Incorrect document");
+        } else {
+            this.document =  document;
+        }
+    }
+
+    private void createPort(String port) throws IllegalArgumentException {
+        if (this.protocol ==Protocol.HTTP && port.isEmpty()) {
+            this.port = 80;
+        } else if (this.protocol ==Protocol.HTTPS && port.isEmpty()) {
+            this.port = 443;
+        }
+        try {
+            this.port = new Integer(port);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Incorrect port");
+        }
+        if (!(this.port > 0 && this.port < 3000)) {
+            throw new IllegalArgumentException("Value of port is out of range");
+        }
+    }
 
     private void createProtocol() throws IllegalArgumentException {
         String protocolStr = url.substring(0, 5);
@@ -59,9 +114,11 @@ public class UrlParser {
         if (str.contains(":")) {
             pos = str.indexOf(":");
             domainStr = str.substring(0, pos);
-        } else {
+        } else if (str.contains("/")){
             pos = str.indexOf("/");
             domainStr = str.substring(0, pos);
+        } else {
+            domainStr = str;
         }
         if (domainStr.isEmpty()) {
             throw new IllegalArgumentException("Empty domain");
@@ -72,30 +129,36 @@ public class UrlParser {
 
     private void createPort() throws IllegalArgumentException {
         int pos = url.indexOf(domain) + domain.length();
-        if (url.charAt(pos) != ':' && protocol == Protocol.HTTP) {
-            this.port = 80;
-        } else if (url.charAt(pos) != ':' && protocol == Protocol.HTTPS) {
-            this.port = 443;
-        } else {
-            try {
-                String str = url.substring(pos);
-                String portStr = "";
-                char symbol = ' ';
-                int i = 1;
-                while (symbol != '/' && i < str.length()) {
-                    symbol = str.charAt(i);
-                    if (symbol != '/') {
-                        portStr += symbol;
+        if (pos != url.length()) {
+            if (url.charAt(pos) != ':' && protocol == Protocol.HTTP) {
+                this.port = 80;
+            } else if (url.charAt(pos) != ':' && protocol == Protocol.HTTPS) {
+                this.port = 443;
+            } else {
+                try {
+                    String str = url.substring(pos);
+                    String portStr = "";
+                    char symbol = ' ';
+                    int i = 1;
+                    while (symbol != '/' && i < str.length()) {
+                        symbol = str.charAt(i);
+                        if (symbol != '/') {
+                            portStr += symbol;
+                        }
+                        i++;
                     }
-                    i++;
+                    this.port = new Integer(portStr);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Incorrect port");
                 }
-                this.port = new Integer(portStr);
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("Incorrect port");
+                if (!(port > 0 && port < 3000)) {
+                    throw new IllegalArgumentException("Value of port is out of range");
+                }
             }
-            if (!(port > 0 && port < 3000)) {
-                throw new IllegalArgumentException("Incorrect port");
-            }
+        } else if (protocol == Protocol.HTTP) {
+            this.port = 80;
+        } else if (protocol == Protocol.HTTPS) {
+            this.port = 443;
         }
     }
 
