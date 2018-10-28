@@ -1,0 +1,15 @@
+
+9squid:S1643’"Use a StringBuilder instead.(ıÇ¢¬ÿÿÿÿÿ
+bsquid:S3027s"FPut single-quotes around ':' to use the faster "indexOf(char)" method.(”Ãßäÿÿÿÿÿ
+bsquid:S3027v"FPut single-quotes around '/' to use the faster "indexOf(char)" method.(†ğ°¢ùÿÿÿÿ
+%squid:RedundantThrowsDeclarationCheck"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(£ËÌ
+%squid:RedundantThrowsDeclarationCheck'"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(¡÷Øk
+%squid:RedundantThrowsDeclarationCheck7"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(éÍáá
+%squid:RedundantThrowsDeclarationCheckA"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(ã›
+£%squid:RedundantThrowsDeclarationCheckK"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(À×Ÿäøÿÿÿÿ
+£%squid:RedundantThrowsDeclarationCheckS"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(¦„ªøÿÿÿÿ
+%squid:RedundantThrowsDeclarationCheckc"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(Ğèåó
+¤%squid:RedundantThrowsDeclarationCheck‚"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(ùÚÀ½úÿÿÿÿ
+]squid:S1192:"FDefine a constant instead of duplicating this literal "https" 3 times.(”šËò
+asquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¡ºŸy
+osquid:S3776‚"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(ùÚÀ½úÿÿÿÿ
