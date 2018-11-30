@@ -1,13 +1,0 @@
-
-]squid:S11927"FDefine a constant instead of duplicating this literal "https" 3 times.(”šËò
-nsquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(ùÚÀ½úÿÿÿÿ
-%squid:RedundantThrowsDeclarationCheck>"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(ã›
-%squid:RedundantThrowsDeclarationCheck`"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(Ğèåó
-£%squid:RedundantThrowsDeclarationCheckH"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(À×Ÿäøÿÿÿÿ
-£%squid:RedundantThrowsDeclarationCheckP"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(¦„ªøÿÿÿÿ
-%squid:RedundantThrowsDeclarationCheck4"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(éÍáá
-%squid:RedundantThrowsDeclarationCheck"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(£ËÌ
-%squid:RedundantThrowsDeclarationCheck$"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(¡÷Øk
-1squid:S1220""Move this file to a named package.
-£%squid:RedundantThrowsDeclarationCheck"mRemove the declaration of thrown exception 'java.lang.IllegalArgumentException' which is a runtime exception.(ùÚÀ½úÿÿÿÿ
-9squid:S1643"Use a StringBuilder instead.(ıÇ¢¬ÿÿÿÿÿ

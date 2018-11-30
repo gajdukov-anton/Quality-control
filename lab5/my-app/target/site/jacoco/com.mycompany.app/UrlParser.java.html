@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UrlParser.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">my-app</a> &gt; <a href="index.source.html" class="el_package">com.mycompany.app</a> &gt; <span class="el_source">UrlParser.java</span></div><h1>UrlParser.java</h1><pre class="source lang-java linenums">package com.mycompany.app;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+<span class="fc" id="L6">enum Protocol {</span>
+<span class="fc" id="L7">    HTTP, HTTPS</span>
+}
+
+public class UrlParser {
+    private String url;
+    private String domain;
+    private String document;
+    private int port;
+    private Protocol protocol;
+
+<span class="fc" id="L17">    public UrlParser(String url) throws IllegalArgumentException {</span>
+<span class="fc" id="L18">        this.url = url;</span>
+<span class="fc" id="L19">        parseUrl(url);</span>
+<span class="fc" id="L20">    }</span>
+
+<span class="fc" id="L22">    public UrlParser(String protocol, String domain, String port, String document) {</span>
+<span class="fc" id="L23">        createProtocol(protocol);</span>
+<span class="fc" id="L24">        createDomain(domain);</span>
+<span class="fc" id="L25">        createDocument(document);</span>
+<span class="fc" id="L26">        createPort(port);</span>
+<span class="fc" id="L27">        this.url = getStrProtocol() + &quot;://&quot; + getDomain() + &quot;:&quot; + getPort() + &quot;/&quot; + getDocument();</span>
+<span class="fc" id="L28">    }</span>
+
+<span class="fc" id="L30">    public UrlParser(String protocol, String domain, String document) {</span>
+<span class="fc" id="L31">        createProtocol(protocol);</span>
+<span class="fc" id="L32">        createDomain(domain);</span>
+<span class="fc" id="L33">        createDocument(document);</span>
+<span class="fc" id="L34">        createPort(&quot;&quot;);</span>
+<span class="fc" id="L35">        this.url = getStrProtocol() + &quot;://&quot; + getDomain() + &quot;:&quot; + getPort() + &quot;/&quot; + getDocument();</span>
+<span class="fc" id="L36">    }</span>
+
+    private void parseUrl(String url) throws IllegalArgumentException {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (url.length() == 0) {</span>
+<span class="fc" id="L40">            throw new IllegalArgumentException(&quot;Empty url&quot;);</span>
+        }
+
+<span class="fc" id="L43">        Pattern pattern = Pattern.compile(&quot;^(http|https)://[-a-zA-Z0-9+&amp;@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&amp;@#/%=~_|]&quot;);</span>
+<span class="fc" id="L44">        Matcher m = pattern.matcher(url);</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (!m.find()) {</span>
+<span class="fc" id="L46">            throw new IllegalArgumentException(&quot;Incorrect url&quot;);</span>
+        }
+<span class="fc" id="L48">        createProtocol();</span>
+<span class="fc" id="L49">        createDomain();</span>
+<span class="fc" id="L50">        createPort();</span>
+<span class="fc" id="L51">        createDocument();</span>
+<span class="fc" id="L52">    }</span>
+
+    private void createProtocol(String protocolStr) throws IllegalArgumentException {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (protocolStr.equals(&quot;http&quot;)) {</span>
+<span class="fc" id="L56">            this.protocol = Protocol.HTTP;</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        } else if (protocolStr.equals(&quot;https&quot;)) {</span>
+<span class="fc" id="L58">            this.protocol = Protocol.HTTPS;</span>
+        } else {
+<span class="fc" id="L60">            throw new IllegalArgumentException(&quot;Invalid type of protocol&quot;);</span>
+        }
+<span class="fc" id="L62">    }</span>
+
+    private void createDomain(String domain) throws IllegalArgumentException {
+<span class="fc" id="L65">        Pattern pattern = Pattern.compile(&quot;([A-Za-z0-9]{1,}[\\-]{0,1}[A-Za-z0-9]{1,}[\\.]{0,1}[A-Za-z0-9]{1,})+&quot;);</span>
+<span class="fc" id="L66">        Matcher m = pattern.matcher(domain);</span>
+<span class="fc bfc" id="L67" title="All 4 branches covered.">        if (!m.find() || domain.contains(&quot;/&quot;)) {</span>
+<span class="fc" id="L68">            throw new IllegalArgumentException(&quot;Incorrect domain&quot;);</span>
+        } else {
+<span class="fc" id="L70">            this.domain = domain;</span>
+        }
+<span class="fc" id="L72">    }</span>
+
+    private void createDocument(String document) throws IllegalArgumentException {
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        if (document.contains(&quot;//&quot;)) {</span>
+<span class="fc" id="L76">            throw new IllegalArgumentException(&quot;Incorrect document&quot;);</span>
+        } else {
+<span class="fc" id="L78">            this.document = document;</span>
+        }
+<span class="fc" id="L80">    }</span>
+
+    private void createPort(String port) throws IllegalArgumentException {
+<span class="fc bfc" id="L83" title="All 4 branches covered.">        if (this.protocol == Protocol.HTTP &amp;&amp; port.length() == 0) {</span>
+<span class="fc" id="L84">            this.port = 80;</span>
+<span class="fc bfc" id="L85" title="All 4 branches covered.">        } else if (this.protocol == Protocol.HTTPS &amp;&amp; port.length() == 0) {</span>
+<span class="fc" id="L86">            this.port = 443;</span>
+        } else {
+            try {
+<span class="fc" id="L89">                this.port = new Integer(port);</span>
+<span class="fc" id="L90">            } catch (NumberFormatException e) {</span>
+<span class="fc" id="L91">                throw new IllegalArgumentException(&quot;Incorrect port&quot;);</span>
+<span class="fc" id="L92">            }</span>
+<span class="fc bfc" id="L93" title="All 4 branches covered.">            if (!(this.port &gt; 0 &amp;&amp; this.port &lt; 3000)) {</span>
+<span class="fc" id="L94">                throw new IllegalArgumentException(&quot;Value of port is out of range&quot;);</span>
+            }
+        }
+<span class="fc" id="L97">    }</span>
+
+    private void createProtocol() throws IllegalArgumentException {
+<span class="fc" id="L100">        String protocolStr = url.substring(0, 5);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        if (protocolStr.equals(&quot;https&quot;)) {</span>
+<span class="fc" id="L102">            this.protocol = Protocol.HTTPS;</span>
+        } else {
+<span class="fc" id="L104">            this.protocol = Protocol.HTTP;</span>
+        }
+<span class="fc" id="L106">    }</span>
+
+    private void createDomain() {
+<span class="fc" id="L109">        int pos = url.indexOf(&quot;://&quot;) + 3;</span>
+<span class="fc" id="L110">        String str = url.substring(pos);</span>
+        String domainStr;
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (str.contains(&quot;:&quot;)) {</span>
+<span class="fc" id="L113">            pos = str.indexOf(':');</span>
+<span class="fc" id="L114">            domainStr = str.substring(0, pos);</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        } else if (str.contains(&quot;/&quot;)) {</span>
+<span class="fc" id="L116">            pos = str.indexOf('/');</span>
+<span class="fc" id="L117">            domainStr = str.substring(0, pos);</span>
+        } else {
+<span class="fc" id="L119">            domainStr = str;</span>
+        }
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (domainStr.length() == 0) {</span>
+<span class="fc" id="L122">            throw new IllegalArgumentException(&quot;Empty domain&quot;);</span>
+        } else {
+<span class="fc" id="L124">            this.domain = domainStr;</span>
+        }
+<span class="fc" id="L126">    }</span>
+
+    private void createPort() throws IllegalArgumentException {
+<span class="fc" id="L129">        int pos = url.indexOf(domain) + domain.length();</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">        if (pos != url.length()) {</span>
+<span class="fc bfc" id="L131" title="All 4 branches covered.">            if (url.charAt(pos) != ':' &amp;&amp; protocol == Protocol.HTTP) {</span>
+<span class="fc" id="L132">                this.port = 80;</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">            } else if (url.charAt(pos) != ':') {</span>
+<span class="fc" id="L134">                this.port = 443;</span>
+            } else {
+                try {
+<span class="fc" id="L137">                    String str = url.substring(pos);</span>
+<span class="fc" id="L138">                    String portStr = &quot;&quot;;</span>
+<span class="fc" id="L139">                    char symbol = ' ';</span>
+<span class="fc" id="L140">                    int i = 1;</span>
+<span class="fc bfc" id="L141" title="All 4 branches covered.">                    while (symbol != '/' &amp;&amp; i &lt; str.length()) {</span>
+<span class="fc" id="L142">                        symbol = str.charAt(i);</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">                        if (symbol != '/') {</span>
+<span class="fc" id="L144">                            portStr += symbol;</span>
+                        }
+<span class="fc" id="L146">                        i++;</span>
+                    }
+<span class="fc" id="L148">                    this.port = new Integer(portStr);</span>
+<span class="fc" id="L149">                } catch (NumberFormatException e) {</span>
+<span class="fc" id="L150">                    throw new IllegalArgumentException(&quot;Incorrect port&quot;);</span>
+<span class="fc" id="L151">                }</span>
+<span class="fc bfc" id="L152" title="All 4 branches covered.">                if (!(port &gt; 0 &amp;&amp; port &lt; 3000)) {</span>
+<span class="fc" id="L153">                    throw new IllegalArgumentException(&quot;Value of port is out of range&quot;);</span>
+                }
+            }
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        } else if (protocol == Protocol.HTTP) {</span>
+<span class="fc" id="L157">            this.port = 80;</span>
+        } else  {
+<span class="fc" id="L159">            this.port = 443;</span>
+        }
+<span class="fc" id="L161">    }</span>
+
+    private void createDocument() {
+<span class="fc" id="L164">        String str = url.substring(url.indexOf(&quot;://&quot;) + 3);</span>
+<span class="fc" id="L165">        int pos = str.indexOf('/');</span>
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        if (pos == -1) {</span>
+<span class="fc" id="L167">            this.document = &quot;/&quot;;</span>
+        } else {
+<span class="fc" id="L169">            String strDocument = str.substring(pos);</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">            if (strDocument.contains(&quot;//&quot;)) {</span>
+<span class="fc" id="L171">                throw new IllegalArgumentException(&quot;Incorrect document&quot;);</span>
+            } else {
+<span class="fc" id="L173">                this.document = strDocument;</span>
+            }
+        }
+<span class="fc" id="L176">    }</span>
+
+    public String getUrl() {
+<span class="fc" id="L179">        return url;</span>
+    }
+
+
+    public String getDomain() {
+<span class="fc" id="L184">        return domain;</span>
+    }
+
+    public int getPort() {
+<span class="fc" id="L188">        return port;</span>
+    }
+
+    public String getDocument() {
+<span class="fc" id="L192">        return document;</span>
+    }
+
+    public String getStrProtocol() {
+<span class="fc bfc" id="L196" title="All 2 branches covered.">        if (protocol == Protocol.HTTP) {</span>
+<span class="fc" id="L197">            return &quot;http&quot;;</span>
+        } else {
+<span class="fc" id="L199">            return &quot;https&quot;;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.1.201803210924</span></div></body></html>
