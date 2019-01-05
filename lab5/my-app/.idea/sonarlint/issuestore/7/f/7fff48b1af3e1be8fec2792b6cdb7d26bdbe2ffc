@@ -1,14 +1,3 @@
 
-]squid:S1118":Add a private constructor to hide the implicit public one.(Í÷€üÿÿÿÿ8Ş¨ÅŒõ,
-V
-squid:S106"9Replace this use of System.out or System.err by a logger.(Ï¯§¤8ŸİÀŒõ,
-V
-squid:S106"9Replace this use of System.out or System.err by a logger.(õŒµÔ8ŸİÀŒõ,
-[
-squid:S106"9Replace this use of System.out or System.err by a logger.(…âÜƒÿÿÿÿÿ8ŸİÀŒõ,
-V
-squid:S106"9Replace this use of System.out or System.err by a logger.(ø’Íİ8ŸİÀŒõ,
-[
-squid:S106"9Replace this use of System.out or System.err by a logger.(Ÿ¶ñÍúÿÿÿÿ8ŸİÀŒõ,
-V
-squid:S106"9Replace this use of System.out or System.err by a logger.(£ÇÇ¦8ŸİÀŒõ,
+Xsquid:S1118":Add a private constructor to hide the implicit public one.(²¡ïõ8ûÿ›Í÷,
+¤squid:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¾ùñ±øÿÿÿÿ8ûÿ›Í÷,
